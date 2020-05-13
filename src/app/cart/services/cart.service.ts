@@ -17,7 +17,7 @@ export class CartService {
   }
 
   resetCart(): void {
-    this.cartItems = [];
+    this.cartItems.length = 0;
   }
 }
 

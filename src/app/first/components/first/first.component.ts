@@ -13,4 +13,5 @@ export class FirstComponent {
   price: number = 199.99;
   category: typeof Category = Category;
   isAvailable: boolean = true;
+  materials: string[] = ['glass', 'plastic', 'metal'];
 }
