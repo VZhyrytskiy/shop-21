@@ -10,7 +10,7 @@ import { Product } from '../../../products/models/ProductModel.model';
   styleUrls: ['./cart.component.scss'],
 })
 export class CartComponent {
-  cartItems: Product[] = this.cartService.getCartItems();
+  cartItems: Product[] = this.cartService.getCartItems(); // обычно так не делают, выносят в метод ngOnInit
 
   constructor(private cartService: CartService) { }
 }

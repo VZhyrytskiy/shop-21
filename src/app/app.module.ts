@@ -18,7 +18,7 @@ const declarations = [
 ];
 
 @NgModule({
-  declarations: [...declarations, CartListComponent],
+  declarations: [...declarations, CartListComponent], // наверное, этот компонент тоже можно добавить в массив declarations
   imports: [
     BrowserModule,
     AppRoutingModule
