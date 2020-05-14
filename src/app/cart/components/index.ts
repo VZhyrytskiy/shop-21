@@ -1,2 +1,3 @@
-export { CartComponent } from './cart';
-export { CartListComponent } from './cart-list';
+export * from './cart/cart.component';
+export * from './cart-list/cart-list.component';
+export * from './cart-item/cart-item.component';

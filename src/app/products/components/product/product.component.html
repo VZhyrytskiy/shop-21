@@ -1,1 +1,18 @@
-<button (click)="onBuy()">Buy</button>
+<ul>
+  <li>{{ product.name }}</li>
+  <li>{{ product.description }}</li>
+  <li>{{ product.price | currency }}</li>
+  <li>{{ product.category | uppercase }}</li>
+  <li [ngClass]="{ 'not-available': !product.isAvailable }">
+    {{ product.isAvailable ? 'Available' : 'Not available' }}
+  </li>
+  <li>{{ product.quantity }} left.</li>
+</ul>
+
+<button
+  [style.borderColor]="product.price > 100 ? 'red' : 'green'"
+  [ngStyle]="{'font-weight': product.isAvailable ? 'bold' : 'initial' }"
+  [disabled]="!product.isAvailable"
+  (click)="addToCart.emit()"
+>Buy
+</button>

@@ -1,13 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+
+import { Product } from '../../../shared/models';
 
 @Component({
-  selector: 'app-product',
+  selector: 'app-product-component',
   templateUrl: './product.component.html',
-  styleUrls: ['./product.component.scss']
+  styleUrls: ['./product.component.scss'],
 })
 export class ProductComponent {
-  onBuy() {
-    console.log('Item added to cart');
-  }
+  @Input() product: Product;
 
+  @Output() addToCart: EventEmitter<void> = new EventEmitter();
 }

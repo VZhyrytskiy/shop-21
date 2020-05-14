@@ -1,7 +1,8 @@
-<ul *ngFor="let product of products">
-  <li>{{ product.name }}</li>
-  <li>{{ product.description }}</li>
-  <li>{{ product.price | currency }}</li>
-  <li>{{ product.category }}</li>
-  <li>{{ product.isAvailable }}</li>
-</ul>
+<div *ngFor="let product of products">
+  <app-product-component
+    [product]="product"
+    (addToCart)="addToCart(product)"
+  ></app-product-component>
+  <hr>
+  <br>
+</div>

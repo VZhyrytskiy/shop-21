@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 
-import { CartService } from '../../services/cart.service';
+import { CartService } from '../../services';
 
-import { Product } from '../../../products/models/ProductModel.model';
+import { CartProduct } from '../../../products/models';
 
 @Component({
   selector: 'app-cart',
@@ -10,7 +10,7 @@ import { Product } from '../../../products/models/ProductModel.model';
   styleUrls: ['./cart.component.scss'],
 })
 export class CartComponent {
-  cartItems: Product[] = this.cartService.getCartItems();
+  cartItems: CartProduct[] = this.cartService.getCartItems();
 
   constructor(private cartService: CartService) { }
 }

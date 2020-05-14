@@ -4,6 +4,7 @@ export interface Product {
   price: number;
   category: Category;
   isAvailable: boolean;
+  quantity: number;
 }
 
 export enum Category {

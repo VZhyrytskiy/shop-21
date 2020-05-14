@@ -1,8 +1,8 @@
 <h2>CART</h2>
 
 <div *ngIf="cartItems?.length; else elseBlock">
-  <h4>In cart items:</h4>
-  <app-cart-list [cartItems]="cartItems"></app-cart-list>
+  <h4>Items in the cart:</h4>
+  <app-cart-list></app-cart-list>
 </div>
 
 <ng-template #elseBlock>

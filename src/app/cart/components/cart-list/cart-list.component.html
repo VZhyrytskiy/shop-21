@@ -1,7 +1,16 @@
-<ul *ngFor="let cartItem of cartItems">
-  <li>
-    <h3>{{ cartItem.name }}</h3>
+<ol>
+  <li *ngFor="let cartItem of cartItems; trackBy: trackByFn">
+    <app-cart-item
+      appHoverEffect
+      [product]="cartItem"
+      (decreaseAmount)="decreaseAmount($event)"
+      (increaseAmount)="increaseAmount($event)"
+      (remove)="removeCartItem($event)"
+    ></app-cart-item>
   </li>
-  <li>{{ cartItem.description }}</li>
-  <li>Price: {{ cartItem.price }}</li>
-</ul>
+</ol>
+
+<em>There are {{ getCartItemsQuantity() }} items in your cart. </em>
+<em>Total price: {{ getTotalPrice() | currency }} </em>
+
+<button (click)="resetCart()">Reset cart</button>

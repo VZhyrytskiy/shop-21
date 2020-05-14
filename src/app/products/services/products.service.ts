@@ -1,42 +1,61 @@
 import { Injectable } from '@angular/core';
 
-import { Category, Product } from '../models/ProductModel.model';
+import { Product } from '../../shared/models';
+import { CartProduct } from '../models';
 
-const products: Product[] = [
-  {
-    name: 'IPad',
-    description: 'Manufactured date: 2016',
-    price: 500,
-    category: Category.New,
-    isAvailable: true,
-  }, {
-    name: 'MacBookPro',
-    description: 'Manufactured date: 2020',
-    price: 2999.99,
-    category: Category.New,
-    isAvailable: true,
-  }, {
-    name: 'MacMini',
-    description: 'Manufactured date: 2010',
-    price: 100,
-    category: Category.Used,
-    isAvailable: true,
-  }, {
-    name: 'IPhone',
-    description: 'Manufactured date: 2015',
-    price: 49,
-    category: Category.Used,
-    isAvailable: false,
-  }
-];
+import { products } from './products.constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductsService {
-  private products: Product[] = products;
+  private products: Product[] | null = ProductsService.setProducts();
 
-  getProducts(): Product[] {
+  private static setProducts(): Product[] {
+    return products;
+  }
+
+  getProducts(): Product[] | null {
     return this.products;
+  }
+
+  getProductQuantity(product: CartProduct): number {
+    return this.products.find(el => el.name === product.name).quantity;
+  }
+
+  increaseQuantity(product: Product | CartProduct): void {
+    const inStockProduct = this.products.find(el => el.name === product.name);
+
+    if (!inStockProduct.quantity) {
+      inStockProduct.isAvailable = true;
+    }
+
+    inStockProduct.quantity++;
+  }
+
+  reduceQuantity(product: Product | CartProduct): void {
+    const inStockProduct: Product = this.products.find(el => el.name === product.name);
+
+    inStockProduct.quantity--;
+
+    if (!inStockProduct.quantity) {
+      inStockProduct.isAvailable = false;
+    }
+  }
+
+  setProductQuantityFromCartItem(cartProducts: CartProduct): void {
+    const inStockProduct: Product = this.products.find(el => el.name === cartProducts.name);
+
+    inStockProduct.quantity += cartProducts.cartProductQuantity;
+    inStockProduct.isAvailable = true;
+  }
+
+  setProductQuantityFromCartItems(cartProducts: CartProduct[]): void {
+    cartProducts.forEach(cartProductsItem => {
+      const inStockProduct = this.products.find(el => el.name === cartProductsItem.name);
+
+      inStockProduct.quantity += cartProductsItem.cartProductQuantity;
+      inStockProduct.isAvailable = true;
+    });
   }
 }
