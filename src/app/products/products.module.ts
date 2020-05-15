@@ -1,18 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProductComponent } from './components/product';
-import { ProductListComponent } from './components/product-list';
+
+import { ProductComponent, ProductListComponent } from './components';
+
+const declarations = [
+  ProductComponent,
+  ProductListComponent,
+];
 
 @NgModule({
-  declarations: [
-    ProductComponent,
-    ProductListComponent,
-  ],
-  imports: [
-    CommonModule
-  ],
-  exports: [
-    ProductListComponent,
-  ]
+  declarations: [...declarations],
+  imports: [CommonModule],
+  exports: [ProductListComponent],
 })
 export class ProductsModule { }

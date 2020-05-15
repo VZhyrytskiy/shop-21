@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HoverEffectDirective } from './directives/hover-effect.directive';
+
+import { HoverEffectDirective } from './directives';
 
 @NgModule({
   declarations: [HoverEffectDirective],
