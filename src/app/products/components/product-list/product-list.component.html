@@ -1,4 +1,4 @@
-<div *ngFor="let product of products">
+<div *ngFor="let product of (products$ | async); trackBy: trackByIndex">
   <app-product-component
     [product]="product"
     (addToCart)="addToCart(product)"

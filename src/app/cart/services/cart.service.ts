@@ -1,5 +1,10 @@
 import { Injectable } from '@angular/core';
 
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+import { cloneDeep } from 'lodash';
+
 import { Product } from '../../shared/models';
 import { CartProduct } from '../../products/models';
 
@@ -7,52 +12,84 @@ import { CartProduct } from '../../products/models';
   providedIn: 'root'
 })
 export class CartService {
+  cartItems$: Observable<CartProduct[]>;
+  cartItemsQuantity$: Observable<number>;
+  cartTotalPrice$: Observable<number>;
+
   private cartItems: CartProduct[] = [];
+  private cartItemsSubject = new BehaviorSubject<CartProduct[]>(this.cartItems);
 
-  getCartItems(): CartProduct[] {
-    return this.cartItems;
+  constructor() {
+    this.cartItems$ = this.cartItemsSubject.asObservable();
+
+    this.cartItemsQuantity$ = this.cartItems$.pipe(
+      map((cartItems: CartProduct[]) => {
+        return cartItems.reduce((acc, item) => acc += item.cartProductQuantity, 0);
+      })
+    );
+
+    this.cartTotalPrice$ = this.cartItems$.pipe(
+      map((cartItems: CartProduct[]) => {
+        return cartItems.reduce((acc, item) => acc += (item.price * item.cartProductQuantity), 0);
+      })
+    );
   }
 
-  getCartItemsQuantity(): number {
-    return this.cartItems.reduce((acc, item) => acc += item.cartProductQuantity, 0);
+  decreaseAmount(cartProduct: CartProduct): void {
+    const cartItemsCopy: CartProduct[] = cloneDeep(this.cartItems);
+    const cartItem: CartProduct = this.getCartProduct(cartItemsCopy, cartProduct);
+
+    cartItem.cartProductQuantity--;
+    this.cartItems = cartItemsCopy;
+    this.cartItemsSubject.next(this.cartItems);
   }
 
-  getTotalPrice(): number {
-    return this.cartItems.reduce((acc, item) => acc += (item.price * item.cartProductQuantity), 0);
+  // TODO refactor to single reduce/increase method
+  increaseAmount(cartProduct: CartProduct): void {
+    const cartItemsCopy: CartProduct[] = cloneDeep(this.cartItems);
+    const cartItem: CartProduct = this.getCartProduct(cartItemsCopy, cartProduct);
+
+    cartItem.cartProductQuantity++;
+    this.cartItems = cartItemsCopy;
+    this.cartItemsSubject.next(this.cartItems);
   }
 
   isDecreaseAmountAvailable(cartProduct: CartProduct): boolean {
     return !!(cartProduct.cartProductQuantity - 1);
   }
 
-  decreaseAmount(cartProduct: CartProduct): void {
-    cartProduct.cartProductQuantity--;
-  }
+  addCartItem(product: Product): void {
+    const cartItemsCopy: CartProduct[] = cloneDeep(this.cartItems);
+    const cartItem: CartProduct = this.getCartProduct(cartItemsCopy, product);
 
-  increaseAmount(cartProduct: CartProduct): void {
-    cartProduct.cartProductQuantity++;
-  }
-
-  addCartItem(item: Product): void {
-    const cartProduct: CartProduct = this.cartItems.find(el => el.name === item.name);
-
-    if (cartProduct) {
-      cartProduct.cartProductQuantity++;
+    if (cartItem) {
+      cartItem.cartProductQuantity++;
     } else {
-      const newCartProduct: CartProduct = Object.assign({}, item, {cartProductQuantity: 1});
+      const newCartProduct: CartProduct = Object.assign({}, product, {cartProductQuantity: 1});
       delete newCartProduct.quantity;
-      this.cartItems.push(newCartProduct);
+      cartItemsCopy.push(newCartProduct);
     }
+
+    this.cartItems = cartItemsCopy;
+    this.cartItemsSubject.next(this.cartItems);
   }
 
-  removeCartItem(item: CartProduct): void {
-    const itemIndex: number = this.cartItems.findIndex(el => el.name === item.name);
+  removeCartItem(cartProduct: CartProduct): void {
+    const cartItemsCopy: CartProduct[] = cloneDeep(this.cartItems);
+    const cartItemIndex: number = cartItemsCopy.findIndex((el) => el.name === cartProduct.name);
 
-    this.cartItems.splice(itemIndex, 1);
+    cartItemsCopy.splice(cartItemIndex, 1);
+    this.cartItems = cartItemsCopy;
+    this.cartItemsSubject.next(this.cartItems);
   }
 
   resetCart(): void {
-    this.cartItems.length = 0;
+    this.cartItems = [];
+    this.cartItemsSubject.next(this.cartItems);
+  }
+
+  private getCartProduct(cartProducts: CartProduct[], cartProduct: CartProduct | Product): CartProduct {
+    return cartProducts.find((el: CartProduct): boolean => el.name === cartProduct.name);
   }
 }
 

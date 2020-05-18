@@ -35,3 +35,5 @@
 10. Set AppTitle using @ViewChild in component
 11. Used @HostBinding and @HostListener for host manipulating  
 12. Used: ngClass, ngStyle and others directives, pipes...    
+13. Changed all components ChangeDetectionStrategy to "OnPush"
+14. Used BehaviorSubject to manage data flow

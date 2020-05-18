@@ -1,22 +1,26 @@
 import { Injectable } from '@angular/core';
 
+import { Observable, BehaviorSubject } from 'rxjs';
+
+import { cloneDeep } from 'lodash';
+
+
 import { Product } from '../../shared/models';
 import { CartProduct } from '../models';
 
-import { products } from './products.constants';
+import { productsMock } from './products.constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductsService {
-  private products: Product[] | null = ProductsService.setProducts();
+  products$: Observable<Product[]>;
 
-  private static setProducts(): Product[] {
-    return products;
-  }
+  private products: Product[] = productsMock;
+  private productsSubject = new BehaviorSubject<Product[]>(this.products);
 
-  getProducts(): Product[] | null {
-    return this.products;
+  constructor() {
+    this.products$ = this.productsSubject.asObservable();
   }
 
   getProductQuantity(product: CartProduct): number {
@@ -24,38 +28,54 @@ export class ProductsService {
   }
 
   increaseQuantity(product: Product | CartProduct): void {
-    const inStockProduct = this.products.find(el => el.name === product.name);
+    const productsCopy: Product[] = cloneDeep(this.products);
+    const inStockProduct: Product = this.getProduct(productsCopy, product);
 
     if (!inStockProduct.quantity) {
       inStockProduct.isAvailable = true;
     }
-
     inStockProduct.quantity++;
+    this.products = productsCopy;
+    this.productsSubject.next(this.products);
   }
 
   reduceQuantity(product: Product | CartProduct): void {
-    const inStockProduct: Product = this.products.find(el => el.name === product.name);
+    const productsCopy: Product[] = cloneDeep(this.products);
+    const inStockProduct: Product = this.getProduct(productsCopy, product);
 
     inStockProduct.quantity--;
 
     if (!inStockProduct.quantity) {
       inStockProduct.isAvailable = false;
     }
+    this.products = productsCopy;
+    this.productsSubject.next(this.products);
   }
 
   setProductQuantityFromCartItem(cartProducts: CartProduct): void {
-    const inStockProduct: Product = this.products.find(el => el.name === cartProducts.name);
+    const productsCopy: Product[] = cloneDeep(this.products);
+    const inStockProduct: Product = this.getProduct(productsCopy, cartProducts);
 
     inStockProduct.quantity += cartProducts.cartProductQuantity;
     inStockProduct.isAvailable = true;
+    this.products = productsCopy;
+    this.productsSubject.next(this.products);
   }
 
   setProductQuantityFromCartItems(cartProducts: CartProduct[]): void {
+    const productsCopy: Product[] = cloneDeep(this.products);
+
     cartProducts.forEach(cartProductsItem => {
-      const inStockProduct = this.products.find(el => el.name === cartProductsItem.name);
+      const inStockProduct: Product = this.getProduct(productsCopy, cartProductsItem);
 
       inStockProduct.quantity += cartProductsItem.cartProductQuantity;
       inStockProduct.isAvailable = true;
+      this.products = productsCopy;
+      this.productsSubject.next(this.products);
     });
+  }
+
+  private getProduct(products: Product[], product: Product | CartProduct): Product {
+    return products.find((el: Product) => el.name === product.name);
   }
 }

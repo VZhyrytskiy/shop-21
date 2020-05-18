@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+
+import { Observable } from 'rxjs';
 
 import { ProductsService } from '../../services';
 import { CartService } from '../../../cart/services';
@@ -8,10 +10,11 @@ import { Product } from '../../../shared/models';
 @Component({
   selector: 'app-product-list-component',
   templateUrl: './product-list.component.html',
-  styleUrls: ['./product-list.component.scss']
+  styleUrls: ['./product-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProductListComponent implements OnInit {
-  products: Product[];
+  products$: Observable<Product[]>;
 
   constructor(
     private productsService: ProductsService,
@@ -19,7 +22,11 @@ export class ProductListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.products = this.productsService.getProducts();
+    this.products$ = this.productsService.products$;
+  }
+
+  trackByIndex(index: number): number {
+    return index;
   }
 
   addToCart(product: Product): void {

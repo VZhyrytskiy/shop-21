@@ -1,6 +1,6 @@
 import { Category, Product } from '../../shared/models';
 
-export const products: Product[] = [
+export const productsMock: Product[] = [
   {
     name: 'IPad',
     description: 'Manufactured date: 2016',

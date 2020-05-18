@@ -1,0 +1,20 @@
+.title {
+  text-align: center;
+}
+
+.content-wrap {
+  display: flex;
+}
+
+.product-list {
+  border-right: 1px solid gray;
+}
+
+.cart,
+.product-list {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1em;
+}
+

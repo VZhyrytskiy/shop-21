@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+
+import { Observable, Subscription } from 'rxjs';
 
 import { CartService } from '../../services';
 import { ProductsService } from '../../../products/services';
@@ -9,9 +11,15 @@ import { CartProduct } from '../../../products/models';
   selector: 'app-cart-list',
   templateUrl: './cart-list.component.html',
   styleUrls: ['./cart-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CartListComponent implements OnInit {
+export class CartListComponent implements OnInit, OnDestroy {
+  private subscription: Subscription;
+
   cartItems: CartProduct[];
+  cartItems$: Observable<CartProduct[]>;
+  cartTotalPrice$: Observable<number>;
+  cartItemsQuantity$: Observable<number>;
 
   constructor(
     private cartService: CartService,
@@ -19,19 +27,18 @@ export class CartListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.cartItems = this.cartService.getCartItems();
+    this.subscription = new Subscription();
+    this.cartItems$ = this.cartService.cartItems$;
+    this.cartTotalPrice$ = this.cartService.cartTotalPrice$;
+    this.cartItemsQuantity$ = this.cartService.cartItemsQuantity$;
+    this.subscription.add(this.cartItems$.subscribe(
+      (cartItems: CartProduct[]) => {
+        this.cartItems = cartItems;
+      }));
   }
 
-  trackByFn(index: number): number {
+  trackByIndex(index: number): number {
     return index;
-  }
-
-  getTotalPrice(): number {
-    return this.cartService.getTotalPrice();
-  }
-
-  getCartItemsQuantity(): number {
-    return this.cartService.getCartItemsQuantity();
   }
 
   increaseAmount(cartProduct: CartProduct): void {
@@ -61,5 +68,9 @@ export class CartListComponent implements OnInit {
   resetCart(): void {
     this.productsService.setProductQuantityFromCartItems(this.cartItems);
     this.cartService.resetCart();
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 }
