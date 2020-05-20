@@ -13,7 +13,7 @@ import { CartProduct } from '../../products/models';
 })
 export class CartService {
   cartItems$: Observable<CartProduct[]>;
-  cartItemsQuantity$: Observable<number>;
+  cartItemsQuantity$: Observable<number>; // может быть назвать cartTotalQuantity?
   cartTotalPrice$: Observable<number>;
 
   private cartItems: CartProduct[] = [];

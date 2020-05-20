@@ -10,7 +10,7 @@
   </li>
 </ol>
 
-<em>There are {{ cartItemsQuantity$ | async }} items in your cart. </em>
+<em>There are {{ cartItemsQuantity$ | async }} items in your cart. </em> <!-- Если количество 1, то фраза There are - некоретна-->
 <em>Total price: {{ cartTotalPrice$ | async | currency }} </em>
 
 <button (click)="resetCart()">Reset cart</button>
