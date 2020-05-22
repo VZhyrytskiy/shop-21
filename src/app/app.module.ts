@@ -9,6 +9,7 @@ import { CoreModule } from './core/core.module';
 import { OrdersModule } from './orders/orders.module';
 
 import { AppComponent } from './app.component';
+import { LayoutModule } from './layout/layout.module';
 
 const imports = [
   BrowserModule,
@@ -18,6 +19,7 @@ const imports = [
   OrdersModule,
   ProductsModule,
   SharedModule,
+  LayoutModule,
 ];
 
 @NgModule({

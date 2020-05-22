@@ -37,3 +37,19 @@
 12. Used: ngClass, ngStyle and others directives, pipes...    
 13. Changed all components ChangeDetectionStrategy to "OnPush"
 14. Used BehaviorSubject to manage data flow
+
+## Task 3
+1. Modified CartService, refactored namings, added new methods.
+2. Created LocalStorageService and registered it using "useClass" with methods:
+   * setItem()
+   * getItem()
+   * removeItem()
+   * clear()
+3. Created ConfigOptionsService with methods:
+   * setConfig()
+   * getConfig()
+4. Created ConstantsService as literal object. Registered it using "useValue".
+5. Created GeneratorService and registered it with "useFactory" using with newly created GeneratorFactory function.
+6. Created AboutComponent and injected all mentioned services above. Used @Optional decorator. All services results presented in the component template.
+7. Created EmphasizeDirective with @Input that changes font-weight onClick on it's host.
+

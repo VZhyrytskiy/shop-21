@@ -1,16 +1,16 @@
 <ol>
-  <li *ngFor="let cartItem of cartItems; trackBy: trackByIndex">
-    <app-cart-item
+  <li *ngFor="let cartProduct of cartProducts; trackBy: trackByIndex">
+    <app-cart-product
       appHoverEffect
-      [product]="cartItem"
-      (decreaseAmount)="decreaseAmount(cartItem)"
-      (increaseAmount)="increaseAmount(cartItem)"
-      (remove)="removeCartItem(cartItem)"
-    ></app-cart-item>
+      [product]="cartProduct"
+      (decreaseQuantity)="decreaseQuantity(cartProduct)"
+      (increaseQuantity)="increaseQuantity(cartProduct)"
+      (remove)="removeProduct(cartProduct)"
+    ></app-cart-product>
   </li>
 </ol>
 
-<em>There are {{ cartItemsQuantity$ | async }} items in your cart. </em>
-<em>Total price: {{ cartTotalPrice$ | async | currency }} </em>
+<em>Total {{ totalQuantity$ | async }} items in your cart. </em>
+<em>Total price: {{ totalSum$ | async | currency }} </em>
 
-<button (click)="resetCart()">Reset cart</button>
+<button (click)="removeAllProducts()">Reset cart</button>

@@ -13,11 +13,11 @@ import { CartProduct } from '../../../products/models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CartComponent implements OnInit {
-  cartItems$: Observable<CartProduct[]>;
+  cartProducts$: Observable<CartProduct[]>;
 
   constructor(private cartService: CartService) { }
 
   ngOnInit() {
-    this.cartItems$ = this.cartService.cartItems$;
+    this.cartProducts$ = this.cartService.cartProducts$;
   }
 }

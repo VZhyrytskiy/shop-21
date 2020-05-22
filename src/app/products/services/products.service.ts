@@ -52,7 +52,7 @@ export class ProductsService {
     this.productsSubject.next(this.products);
   }
 
-  setProductQuantityFromCartItem(cartProducts: CartProduct): void {
+  setProductQuantityFromCartProduct(cartProducts: CartProduct): void {
     const productsCopy: Product[] = cloneDeep(this.products);
     const inStockProduct: Product = this.getProduct(productsCopy, cartProducts);
 
@@ -62,7 +62,7 @@ export class ProductsService {
     this.productsSubject.next(this.products);
   }
 
-  setProductQuantityFromCartItems(cartProducts: CartProduct[]): void {
+  setProductQuantityFromCartProducts(cartProducts: CartProduct[]): void {
     const productsCopy: Product[] = cloneDeep(this.products);
 
     cartProducts.forEach(cartProductsItem => {

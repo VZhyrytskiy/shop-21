@@ -3,15 +3,15 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { CartProduct } from '../../../products/models';
 
 @Component({
-  selector: 'app-cart-item',
-  templateUrl: './cart-item.component.html',
-  styleUrls: ['./cart-item.component.scss'],
+  selector: 'app-cart-product',
+  templateUrl: './cart-product.component.html',
+  styleUrls: ['./cart-product.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CartItemComponent {
+export class CartProductComponent {
   @Input() product: CartProduct;
 
-  @Output() decreaseAmount: EventEmitter<void> = new EventEmitter();
-  @Output() increaseAmount: EventEmitter<void> = new EventEmitter();
+  @Output() decreaseQuantity: EventEmitter<void> = new EventEmitter();
+  @Output() increaseQuantity: EventEmitter<void> = new EventEmitter();
   @Output() remove: EventEmitter<void> = new EventEmitter();
 }

@@ -12,80 +12,80 @@ import { CartProduct } from '../../products/models';
   providedIn: 'root'
 })
 export class CartService {
-  cartItems$: Observable<CartProduct[]>;
-  cartItemsQuantity$: Observable<number>;
-  cartTotalPrice$: Observable<number>;
+  cartProducts$: Observable<CartProduct[]>;
+  totalQuantity$: Observable<number>;
+  totalSum$: Observable<number>;
 
-  private cartItems: CartProduct[] = [];
-  private cartItemsSubject = new BehaviorSubject<CartProduct[]>(this.cartItems);
+  private cartProducts: CartProduct[] = [];
+  private cartProductsSubject = new BehaviorSubject<CartProduct[]>(this.cartProducts);
 
   constructor() {
-    this.cartItems$ = this.cartItemsSubject.asObservable();
+    this.cartProducts$ = this.cartProductsSubject.asObservable();
 
-    this.cartItemsQuantity$ = this.cartItems$.pipe(
-      map((cartItems: CartProduct[]) => {
-        return cartItems.reduce((acc, item) => acc += item.cartProductQuantity, 0);
+    this.totalQuantity$ = this.cartProducts$.pipe(
+      map((cartProducts: CartProduct[]) => {
+        return cartProducts.reduce((acc, product) => acc += product.cartProductQuantity, 0);
       })
     );
 
-    this.cartTotalPrice$ = this.cartItems$.pipe(
-      map((cartItems: CartProduct[]) => {
-        return cartItems.reduce((acc, item) => acc += (item.price * item.cartProductQuantity), 0);
+    this.totalSum$ = this.cartProducts$.pipe(
+      map((cartProducts: CartProduct[]) => {
+        return cartProducts.reduce((acc, product) => acc += (product.price * product.cartProductQuantity), 0);
       })
     );
   }
 
-  decreaseAmount(cartProduct: CartProduct): void {
-    const cartItemsCopy: CartProduct[] = cloneDeep(this.cartItems);
-    const cartItem: CartProduct = this.getCartProduct(cartItemsCopy, cartProduct);
+  decreaseQuantity(cartProduct: CartProduct): void {
+    const cartProductsCopy: CartProduct[] = cloneDeep(this.cartProducts);
+    const cartProductCopy: CartProduct = this.getCartProduct(cartProductsCopy, cartProduct);
 
-    cartItem.cartProductQuantity--;
-    this.cartItems = cartItemsCopy;
-    this.cartItemsSubject.next(this.cartItems);
+    cartProductCopy.cartProductQuantity--;
+    this.cartProducts = cartProductsCopy;
+    this.cartProductsSubject.next(this.cartProducts);
   }
 
   // TODO refactor to single reduce/increase method
-  increaseAmount(cartProduct: CartProduct): void {
-    const cartItemsCopy: CartProduct[] = cloneDeep(this.cartItems);
-    const cartItem: CartProduct = this.getCartProduct(cartItemsCopy, cartProduct);
+  increaseQuantity(cartProduct: CartProduct): void {
+    const cartProductsCopy: CartProduct[] = cloneDeep(this.cartProducts);
+    const cartProductCopy: CartProduct = this.getCartProduct(cartProductsCopy, cartProduct);
 
-    cartItem.cartProductQuantity++;
-    this.cartItems = cartItemsCopy;
-    this.cartItemsSubject.next(this.cartItems);
+    cartProductCopy.cartProductQuantity++;
+    this.cartProducts = cartProductsCopy;
+    this.cartProductsSubject.next(this.cartProducts);
   }
 
-  isDecreaseAmountAvailable(cartProduct: CartProduct): boolean {
+  isDecreaseQuantityAvailable(cartProduct: CartProduct): boolean {
     return !!(cartProduct.cartProductQuantity - 1);
   }
 
-  addCartItem(product: Product): void {
-    const cartItemsCopy: CartProduct[] = cloneDeep(this.cartItems);
-    const cartItem: CartProduct = this.getCartProduct(cartItemsCopy, product);
+  addProduct(product: Product): void {
+    const cartProductsCopy: CartProduct[] = cloneDeep(this.cartProducts);
+    const cartProduct: CartProduct = this.getCartProduct(cartProductsCopy, product);
 
-    if (cartItem) {
-      cartItem.cartProductQuantity++;
+    if (cartProduct) {
+      cartProduct.cartProductQuantity++;
     } else {
       const newCartProduct: CartProduct = Object.assign({}, product, {cartProductQuantity: 1});
       delete newCartProduct.quantity;
-      cartItemsCopy.push(newCartProduct);
+      cartProductsCopy.push(newCartProduct);
     }
 
-    this.cartItems = cartItemsCopy;
-    this.cartItemsSubject.next(this.cartItems);
+    this.cartProducts = cartProductsCopy;
+    this.cartProductsSubject.next(this.cartProducts);
   }
 
-  removeCartItem(cartProduct: CartProduct): void {
-    const cartItemsCopy: CartProduct[] = cloneDeep(this.cartItems);
-    const cartItemIndex: number = cartItemsCopy.findIndex((el) => el.name === cartProduct.name);
+  removeProduct(cartProduct: CartProduct): void {
+    const cartProductsCopy: CartProduct[] = cloneDeep(this.cartProducts);
+    const cartProductIndex: number = cartProductsCopy.findIndex((el) => el.name === cartProduct.name);
 
-    cartItemsCopy.splice(cartItemIndex, 1);
-    this.cartItems = cartItemsCopy;
-    this.cartItemsSubject.next(this.cartItems);
+    cartProductsCopy.splice(cartProductIndex, 1);
+    this.cartProducts = cartProductsCopy;
+    this.cartProductsSubject.next(this.cartProducts);
   }
 
-  resetCart(): void {
-    this.cartItems = [];
-    this.cartItemsSubject.next(this.cartItems);
+  removeAllProducts(): void {
+    this.cartProducts = [];
+    this.cartProductsSubject.next(this.cartProducts);
   }
 
   private getCartProduct(cartProducts: CartProduct[], cartProduct: CartProduct | Product): CartProduct {

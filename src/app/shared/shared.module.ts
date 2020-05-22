@@ -1,12 +1,25 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { HoverEffectDirective } from './directives';
+import {
+  HoverEffectDirective,
+  EmphasizeDirective
+} from './directives';
+
+const declarations = [
+  HoverEffectDirective,
+  EmphasizeDirective,
+];
+
+const exports = [
+  HoverEffectDirective,
+  EmphasizeDirective,
+];
 
 @NgModule({
-  declarations: [HoverEffectDirective],
+  declarations: [...declarations],
   imports: [CommonModule],
-  exports: [HoverEffectDirective],
+  exports: [...exports],
 })
 export class SharedModule {
 }

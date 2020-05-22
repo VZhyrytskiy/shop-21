@@ -16,10 +16,10 @@ import { CartProduct } from '../../../products/models';
 export class CartListComponent implements OnInit, OnDestroy {
   private subscription: Subscription;
 
-  cartItems: CartProduct[];
-  cartItems$: Observable<CartProduct[]>;
-  cartTotalPrice$: Observable<number>;
-  cartItemsQuantity$: Observable<number>;
+  cartProducts: CartProduct[];
+  cartProducts$: Observable<CartProduct[]>;
+  totalSum$: Observable<number>;
+  totalQuantity$: Observable<number>;
 
   constructor(
     private cartService: CartService,
@@ -28,12 +28,12 @@ export class CartListComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.subscription = new Subscription();
-    this.cartItems$ = this.cartService.cartItems$;
-    this.cartTotalPrice$ = this.cartService.cartTotalPrice$;
-    this.cartItemsQuantity$ = this.cartService.cartItemsQuantity$;
-    this.subscription.add(this.cartItems$.subscribe(
-      (cartItems: CartProduct[]) => {
-        this.cartItems = cartItems;
+    this.cartProducts$ = this.cartService.cartProducts$;
+    this.totalSum$ = this.cartService.totalSum$;
+    this.totalQuantity$ = this.cartService.totalQuantity$;
+    this.subscription.add(this.cartProducts$.subscribe(
+      (cartProducts: CartProduct[]) => {
+        this.cartProducts = cartProducts;
       }));
   }
 
@@ -41,33 +41,33 @@ export class CartListComponent implements OnInit, OnDestroy {
     return index;
   }
 
-  increaseAmount(cartProduct: CartProduct): void {
+  increaseQuantity(cartProduct: CartProduct): void {
     const stockProductQuantity = this.productsService.getProductQuantity(cartProduct);
 
     if (stockProductQuantity) {
-      this.cartService.increaseAmount(cartProduct);
+      this.cartService.increaseQuantity(cartProduct);
       this.productsService.reduceQuantity(cartProduct);
     }
   }
 
-  decreaseAmount(cartProduct: CartProduct): void {
-    if (this.cartService.isDecreaseAmountAvailable(cartProduct)) {
-      this.cartService.decreaseAmount(cartProduct);
+  decreaseQuantity(cartProduct: CartProduct): void {
+    if (this.cartService.isDecreaseQuantityAvailable(cartProduct)) {
+      this.cartService.decreaseQuantity(cartProduct);
     } else {
-      this.cartService.removeCartItem(cartProduct);
+      this.cartService.removeProduct(cartProduct);
     }
 
     this.productsService.increaseQuantity(cartProduct);
   }
 
-  removeCartItem(cartProduct: CartProduct): void {
-    this.productsService.setProductQuantityFromCartItem(cartProduct);
-    this.cartService.removeCartItem(cartProduct);
+  removeProduct(cartProduct: CartProduct): void {
+    this.productsService.setProductQuantityFromCartProduct(cartProduct);
+    this.cartService.removeProduct(cartProduct);
   }
 
-  resetCart(): void {
-    this.productsService.setProductQuantityFromCartItems(this.cartItems);
-    this.cartService.resetCart();
+  removeAllProducts(): void {
+    this.productsService.setProductQuantityFromCartProducts(this.cartProducts);
+    this.cartService.removeAllProducts();
   }
 
   ngOnDestroy() {
