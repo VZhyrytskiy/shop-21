@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
+import { SharedModule } from '../shared/shared.module';
 
 import { ProductComponent, ProductListComponent } from './components';
 
@@ -10,7 +11,7 @@ const declarations = [
 
 @NgModule({
   declarations: [...declarations],
-  imports: [CommonModule],
+  imports: [SharedModule],
   exports: [ProductListComponent],
 })
 export class ProductsModule { }

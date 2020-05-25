@@ -53,3 +53,14 @@
 6. Created AboutComponent and injected all mentioned services above. Used @Optional decorator. All services results presented in the component template.
 7. Created EmphasizeDirective with @Input that changes font-weight onClick on it's host.
 
+# Task 4
+1. Already used async, currency, uppercase, json.
+2. ProductService already provide products as and observable and ProductListComponent gets it with async pipe on the template.
+3. Created OrderByPipe that receive:
+   * string to order by
+   * ascending/descending boolean
+4. Used orderBy pipe in CartComponent and added ability to order by:
+   * product name
+   * product price
+   * product quantity
+5. Refactored ShareModule's and different module's imports   

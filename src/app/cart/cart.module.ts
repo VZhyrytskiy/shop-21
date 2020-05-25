@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { CartComponent, CartListComponent, CartProductComponent } from './components';
 
@@ -11,14 +10,9 @@ const declarations = [
   CartProductComponent,
 ];
 
-const imports = [
-  CommonModule,
-  SharedModule,
-];
-
 @NgModule({
   declarations: [...declarations],
-  imports: [...imports],
+  imports: [SharedModule],
   exports: [CartComponent],
 })
 export class CartModule { }

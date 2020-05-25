@@ -1,16 +1,44 @@
-<ol>
-  <li *ngFor="let cartProduct of cartProducts; trackBy: trackByIndex">
-    <app-cart-product
-      appHoverEffect
-      [product]="cartProduct"
-      (decreaseQuantity)="decreaseQuantity(cartProduct)"
-      (increaseQuantity)="increaseQuantity(cartProduct)"
-      (remove)="removeProduct(cartProduct)"
-    ></app-cart-product>
-  </li>
-</ol>
+<section>
+  <div>
+    <span>Sort by: </span>
+    <select #ordering (change)="propertyToOrder = ordering.value">
+      <option selected value="name">Name</option>
+      <option value="price">Price</option>
+      <option value="cartProductQuantity">Quantity</option>
+    </select>
 
-<em>Total {{ totalQuantity$ | async }} items in your cart. </em>
-<em>Total price: {{ totalSum$ | async | currency }} </em>
+    <input
+      type="radio"
+      id="ascendingOrder"
+      name="ascendingOrder"
+      [(ngModel)]="isAscendingOrder"
+      [value]="true">
+    <label for="ascendingOrder">Ascending</label>
 
-<button (click)="removeAllProducts()">Reset cart</button>
+    <input
+      type="radio"
+      id="descendingOrder"
+      name="ascendingOrder"
+      [(ngModel)]="isAscendingOrder"
+      [value]="false">
+    <label for="descendingOrder">Descending</label>
+  </div>
+
+  <ol>
+    <li *ngFor="let cartProduct of (cartProducts | orderBy: propertyToOrder: isAscendingOrder); trackBy: trackByIndex">
+      <app-cart-product
+        appHoverEffect
+        [product]="cartProduct"
+        (decreaseQuantity)="decreaseQuantity(cartProduct)"
+        (increaseQuantity)="increaseQuantity(cartProduct)"
+        (remove)="removeProduct(cartProduct)"
+      ></app-cart-product>
+    </li>
+  </ol>
+
+  <em>Total {{ totalQuantity$ | async }} items in your cart. </em>
+  <em>Total price: {{ totalSum$ | async | currency }} </em>
+
+  <button (click)="removeAllProducts()">Reset cart</button>
+</section>
+

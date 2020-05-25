@@ -14,6 +14,9 @@ import { CartProduct } from '../../../products/models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CartListComponent implements OnInit, OnDestroy {
+  propertyToOrder: string = 'name';
+  isAscendingOrder: boolean = true;
+
   private subscription: Subscription;
 
   cartProducts: CartProduct[];

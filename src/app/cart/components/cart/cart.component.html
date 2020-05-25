@@ -1,7 +1,6 @@
 <h2>CART</h2>
 
 <div *ngIf="(cartProducts$ | async)?.length; else elseBlock">
-  <h4>Items in the cart:</h4>
   <app-cart-list></app-cart-list>
 </div>
 
