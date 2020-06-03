@@ -2,9 +2,9 @@
 <h4>{{ product.name }} - {{ product.price | currency }}</h4>
 
 <footer>
-  <button (click)="decreaseQuantity.emit()">-</button>
+  <button (click)="decreaseQuantity.emit()" class="btn btn-dark">-</button>
   <span> {{ product.cartProductQuantity }} </span>
-  <button (click)="increaseQuantity.emit()">+</button>
+  <button (click)="increaseQuantity.emit()" class="btn btn-dark">+</button>
 
-  <button (click)="remove.emit()">Remove</button>
+  <button (click)="remove.emit()" class="btn btn-dark">Remove</button>
 </footer>

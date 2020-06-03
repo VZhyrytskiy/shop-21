@@ -1,0 +1,26 @@
+<section>
+  <h2>ORDERS</h2>
+
+  <ng-container
+    [ngTemplateOutlet]="(orders$ | async).length ? ordersTemplate : noOrders"
+    [ngTemplateOutletContext]="(orders$ | async) ? {$implicit: orders$ | async} : null"
+  >
+  </ng-container>
+
+</section>
+
+<ng-template #ordersTemplate let-orders$>
+  <div *ngFor="let order of orders$">
+    <ul>
+      <li *ngFor="let cartProduct of order.products">
+        {{ cartProduct.name }} - {{ cartProduct.cartProductQuantity }}
+      </li>
+    </ul>
+    Date of purchase: {{ order.date.toDateString() }}
+    <hr>
+  </div>
+</ng-template>
+
+<ng-template #noOrders>
+  <h4>No orders yet</h4>
+</ng-template>

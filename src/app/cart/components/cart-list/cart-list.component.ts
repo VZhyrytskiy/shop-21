@@ -4,6 +4,7 @@ import { Observable, Subscription } from 'rxjs';
 
 import { CartService } from '../../services';
 import { ProductsService } from '../../../products/services';
+import { OrderService } from '../../../order/services';
 
 import { CartProduct } from '../../../products/models';
 
@@ -26,7 +27,8 @@ export class CartListComponent implements OnInit, OnDestroy {
 
   constructor(
     private cartService: CartService,
-    private productsService: ProductsService) {
+    private productsService: ProductsService,
+    private orderService: OrderService) {
   }
 
   ngOnInit() {
@@ -71,6 +73,11 @@ export class CartListComponent implements OnInit, OnDestroy {
   removeAllProducts(): void {
     this.productsService.setProductQuantityFromCartProducts(this.cartProducts);
     this.cartService.removeAllProducts();
+  }
+
+  placeOrder(): void {
+    this.orderService.addOrder(this.cartProducts);
+    this.cartService.clearCart();
   }
 
   ngOnDestroy() {

@@ -44,7 +44,6 @@ export class CartService {
     this.cartProductsSubject.next(this.cartProducts);
   }
 
-  // TODO refactor to single reduce/increase method
   increaseQuantity(cartProduct: CartProduct): void {
     const cartProductsCopy: CartProduct[] = cloneDeep(this.cartProducts);
     const cartProductCopy: CartProduct = this.getCartProduct(cartProductsCopy, cartProduct);
@@ -84,6 +83,11 @@ export class CartService {
   }
 
   removeAllProducts(): void {
+    this.cartProducts = [];
+    this.cartProductsSubject.next(this.cartProducts);
+  }
+
+  clearCart(): void {
     this.cartProducts = [];
     this.cartProductsSubject.next(this.cartProducts);
   }

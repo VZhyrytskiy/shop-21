@@ -1,0 +1,9 @@
+<h3>Item description</h3>
+<h6 class="text-success">{{  product.description }}</h6>
+
+<app-product-component
+  [product]="product"
+  [isInfoMode]="true"
+  (goBack)="onGoBack()"
+></app-product-component>
+

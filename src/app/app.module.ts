@@ -6,20 +6,20 @@ import { CartModule } from './cart/cart.module';
 import { SharedModule } from './shared/shared.module';
 import { ProductsModule } from './products/products.module';
 import { CoreModule } from './core/core.module';
-import { OrdersModule } from './orders/orders.module';
+import { OrdersModule } from './order/orders.module';
+import { LayoutModule } from './layout/layout.module';
 
 import { AppComponent } from './app.component';
-import { LayoutModule } from './layout/layout.module';
 
 const imports = [
   BrowserModule,
-  AppRoutingModule,
   CartModule,
   CoreModule,
   OrdersModule,
-  ProductsModule,
   SharedModule,
   LayoutModule,
+  ProductsModule,
+  AppRoutingModule,
 ];
 
 @NgModule({
@@ -28,4 +28,4 @@ const imports = [
   providers: [],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

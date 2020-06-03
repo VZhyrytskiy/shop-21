@@ -1,0 +1,17 @@
+<a routerLink="../product/add">Add Product</a>
+
+<br>
+<br>
+
+<div *ngFor="let product of ((products$ | async) | orderBy: 'name' ); trackBy: trackByIndex">
+
+  <app-product-component
+    [product]="product"
+    [isAdmin]="true"
+    (editProduct)="onEditProduct(product)"
+  >
+  </app-product-component>
+
+  <hr>
+  <br>
+</div>

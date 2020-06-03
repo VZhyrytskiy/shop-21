@@ -7,7 +7,7 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChil
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements AfterViewInit {
-  @ViewChild('appTitle') appTitle: ElementRef<HTMLHeadingElement>;
+  @ViewChild('appTitle', { static: true }) appTitle: ElementRef<HTMLHeadingElement>;
 
   ngAfterViewInit() {
     this.appTitle.nativeElement.innerText = 'Gadget shop';

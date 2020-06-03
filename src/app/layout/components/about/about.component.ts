@@ -1,4 +1,4 @@
-import { Component, Inject, InjectionToken, OnInit, Optional } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, InjectionToken, OnInit, Optional } from '@angular/core';
 
 import { AppInfo, UserConfig } from '../../../core/models';
 
@@ -14,7 +14,6 @@ export const appInfoToken: InjectionToken<AppInfo> = new InjectionToken<AppInfo>
 export const randomStringToken = new InjectionToken<string>('Random string');
 
 @Component({
-  selector: 'app-about',
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss'],
   providers: [
@@ -23,6 +22,7 @@ export const randomStringToken = new InjectionToken<string>('Random string');
     { provide: appInfoToken, useValue: ConstantService },
     { provide: randomStringToken, useFactory: GeneratorFactory(6), deps: [GeneratorService] },
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AboutComponent implements OnInit {
   randomString: string;

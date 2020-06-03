@@ -3,16 +3,51 @@
   <li>{{ product.description }}</li>
   <li>{{ product.price | currency }}</li>
   <li>{{ product.category | uppercase }}</li>
-  <li [ngClass]="{ 'not-available': !product.isAvailable }">
+  <li *ngIf="!isInfoMode" [ngClass]="{ 'not-available': !product.isAvailable }">
     {{ product.isAvailable ? 'Available' : 'Not available' }}
   </li>
-  <li>{{ product.quantity }} left.</li>
+  <li *ngIf="!isInfoMode">{{ product.quantity }} left.</li>
 </ul>
 
-<button
-  [style.borderColor]="product.price > 100 ? 'red' : 'green'"
-  [ngStyle]="{'font-weight': product.isAvailable ? 'bold' : 'initial' }"
-  [disabled]="!product.isAvailable"
-  (click)="addToCart.emit()"
->Buy
-</button>
+<ng-container
+  *ngIf="!isInfoMode;
+  then defaultMode;
+  else infoActions">
+</ng-container>
+
+<ng-template #defaultMode>
+  <button
+    *ngIf="!isAdmin"
+    (click)="viewDetails.emit()"
+    class="btn btn-info"
+  >View details
+  </button>
+
+  <button
+    *ngIf="isAdmin"
+    type="button"
+    class="btn btn-dark"
+    (click)="editProduct.emit()"
+  >Edit Product
+  </button>
+
+  <button
+    *ngIf="!isAdmin"
+    [style.borderColor]="product.price > 100 ? 'red' : 'green'"
+    [ngStyle]="{'font-weight': product.isAvailable ? 'bold' : 'initial' }"
+    [disabled]="!product.isAvailable"
+    (click)="addToCart.emit()"
+    class="btn btn-dark"
+  >Buy
+  </button>
+</ng-template>
+
+<ng-template #infoActions>
+  <button
+    *ngIf="!isAdmin"
+    type="button"
+    class="btn btn-dark"
+    (click)="goBack.emit()"
+  >Back
+  </button>
+</ng-template>

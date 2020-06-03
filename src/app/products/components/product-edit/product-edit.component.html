@@ -1,0 +1,75 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4 class="panel-title">
+      Product Form
+    </h4>
+  </div>
+
+  <div class="panel-body">
+    <form (ngSubmit)="onSaveProduct()" id="product-form" #form="ngForm">
+      <h2 *ngIf="originalProductName">{{ originalProductName }}</h2>
+
+      <div class="form-group" *ngIf="!originalProductName">
+        <label for="name">Product Name</label>
+        <input type="text"
+               class="form-control"
+               id="name" name="name"
+               placeholder="Product Name"
+               required
+               [(ngModel)]="product.name">
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text"
+               class="form-control"
+               id="description" name="description"
+               placeholder="Description"
+               [(ngModel)]="product.description">
+      </div>
+      <div class="form-group">
+        <label for="price">Price</label>
+        <input type="number"
+               class="form-control"
+               id="price" name="price"
+               placeholder="Price"
+               [(ngModel)]="product.price">
+      </div>
+      <div class="form-group">
+        <label for="category">Category</label>
+        <input type="text"
+               class="form-control"
+               id="category" name="category"
+               placeholder="Category"
+               [(ngModel)]="product.category">
+      </div>
+      <div class="form-group">
+        <label for="isAvailable">Is available</label>
+        <input type="text"
+               class="form-control"
+               id="isAvailable" name="isAvailable"
+               placeholder="Is available"
+               [(ngModel)]="product.isAvailable">
+      </div>
+      <div class="form-group">
+        <label for="quantity">Quantity</label>
+        <input type="number"
+               class="form-control"
+               id="quantity" name="quantity"
+               placeholder="Quantity"
+               [(ngModel)]="product.quantity">
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="form.invalid">Save
+      </button>
+      <button class="btn btn-primary"
+              type="button"
+              (click)="onGoBack()">Back
+      </button>
+
+      <ng-content></ng-content>
+    </form>
+  </div>
+</div>

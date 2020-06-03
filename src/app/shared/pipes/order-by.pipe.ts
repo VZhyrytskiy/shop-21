@@ -3,13 +3,14 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { cloneDeep } from 'lodash';
 
 import { CartProduct } from '../../products/models';
+import { Product } from '../models';
 
 @Pipe({
   name: 'orderBy',
 })
 export class OrderByPipe implements PipeTransform {
-  transform(cartProducts: CartProduct[], sortBy: string, isAscending?: boolean): CartProduct[] {
-    const cartProductsCopy: CartProduct[] = cloneDeep(cartProducts);
+  transform(cartProducts: Array<CartProduct | Product>, sortBy: string, isAscending?: boolean): Array<CartProduct | Product> {
+    const cartProductsCopy: Array<CartProduct | Product> = cloneDeep(cartProducts);
 
     return cartProductsCopy.sort(this.compare(sortBy, isAscending));
   }

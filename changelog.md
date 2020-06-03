@@ -64,3 +64,26 @@
    * product price
    * product quantity
 5. Refactored ShareModule's and different module's imports   
+
+# Task 5
+1. Upgrade angular and code from 7 to 9 version
+2. Included and used "Bootstrap" in some places
+3. Navigation bar with router links and active link emphasize
+4. Refactored product component for "Info" and "Admin" mode
+5. Added "Product edit" and "Product view" components
+6. Implemented order service
+7. Added App, Admin, Product routing
+8. Implemented "Path not found" component and routes
+9. Implemented Authentication service
+10. Implemented "Clear card" functionality
+11. Implemented "Place order" functionality (/cart)
+12. Implemented orders list component using ngTemplateOutlet and  ngTemplateOutletContext for template (/order)
+13. Implemented product details with back button (/products/:productID)
+14. Login section and redirection to it, if unauthorised user tries to use "Admin" section (/login)
+15. Dynamic loaded "Admin" feature section with guards, children links and children guards (/admin) 
+16. "Manage products" and "Manage Orders" admin sub sections with navigation (/admin/products; /admin/orders)
+17. Admin edit product functionality with "Save" and "Go back" buttons (/admin/product/edit/:productID)
+18. Admin "Add new product" functionality with "Save" and "Go back" buttons (/admin/product/add)
+19. Removed selectors from components that are handled by the router
+20. "About" component uses Localstorage service to manage tokens
+...

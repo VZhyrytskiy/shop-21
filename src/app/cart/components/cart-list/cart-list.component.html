@@ -39,6 +39,7 @@
   <em>Total {{ totalQuantity$ | async }} items in your cart. </em>
   <em>Total price: {{ totalSum$ | async | currency }} </em>
 
-  <button (click)="removeAllProducts()">Reset cart</button>
+  <button (click)="removeAllProducts()" class="btn btn-dark">Reset cart</button>
+  <button (click)="placeOrder()" class="btn btn-outline-dark">Place order</button>
 </section>
 

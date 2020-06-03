@@ -10,6 +10,11 @@ import { Product } from '../../../shared/models';
 })
 export class ProductComponent {
   @Input() product: Product;
+  @Input() isInfoMode: boolean = false;
+  @Input() isAdmin: boolean = false;
 
   @Output() addToCart: EventEmitter<void> = new EventEmitter();
+  @Output() viewDetails: EventEmitter<void> = new EventEmitter();
+  @Output() editProduct: EventEmitter<void> = new EventEmitter();
+  @Output() goBack: EventEmitter<void> = new EventEmitter();
 }
