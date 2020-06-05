@@ -143,5 +143,8 @@
       }
     }
   },
-  "defaultProject": "shop"
+  "defaultProject": "shop",
+  "cli": {
+    "analytics": false
+  }
 }

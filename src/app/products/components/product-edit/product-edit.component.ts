@@ -20,12 +20,12 @@ import { ProductsService } from '../../services';
 export class ProductEditComponent implements OnInit, OnDestroy {
   product: Product;
   originalProductName: string;
-  subscription: Subscription;
+  subscription: Subscription; // наверное, можно спрятать за private
   product$: Observable<Product>;
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
+    // private router: Router,
     private productsService: ProductsService,
     private location: Location) {
   }

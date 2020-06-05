@@ -11,7 +11,11 @@ import { Category, Product } from '../../shared/models';
 export class ProductResolveGuard implements Resolve<Product> {
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot):
     Observable<Product> | Promise<Product> | Product | null {
-    if (!route.paramMap.has('productID')) {
+
+    // не понимаю сути этого гарда: если нет параметра, то вернуть заготовку продукта, а если есть параметр?
+    // вы его подключили для product/edit/:productID' в роутинге админки, что он будет возвращать?
+    // судя по коду product-edit component он не пользуется услугами этого гарда, а сам читает параметры и получает данные
+      if (!route.paramMap.has('productID')) {
       const newProduct: Product = {
         name: '',
         description: '',

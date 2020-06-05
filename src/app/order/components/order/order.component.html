@@ -1,6 +1,7 @@
 <section>
   <h2>ORDERS</h2>
 
+  <!-- Есть ли смысл в этом? Или это просто попробовать? -->
   <ng-container
     [ngTemplateOutlet]="(orders$ | async).length ? ordersTemplate : noOrders"
     [ngTemplateOutletContext]="(orders$ | async) ? {$implicit: orders$ | async} : null"

@@ -11,6 +11,7 @@ const routes: Routes = [
   {
     path: 'products/:productName',
     component: ProductViewComponent,
+    // тут вот можно было бы применить резолв гард
   },
 ];
 
